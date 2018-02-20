@@ -2,41 +2,50 @@
 
 namespace Corp\Http\Controllers;
 
-use Corp\Repositories\MenusRepository;
-use Corp\Repositories\SlidersRepository;
 use Illuminate\Http\Request;
-use Corp\Repositories\MunusRepository;
+use Corp\Repositories\MenusRepository;
 use Corp\Menu;
+use Corp\Repositories\SlidersRepository;
+use Corp\Repositories\PortfoliosRepository;
+use Config;
 
 
 class IndexController extends SiteController
 {
 
-    public function __construct(SlidersRepository $s_rep)
+    public function __construct(SlidersRepository $s_rep, PortfoliosRepository $p_rep)
     {
         parent::__construct(new MenusRepository(new Menu));
 
         $this->s_rep    = $s_rep;
+        $this->p_rep    = $p_rep;
 
         $this->bar      = 'right';
         $this->template = env('THEME') . '.index';
 
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        $sliderItem = $this->getSliders();
+        $portfolioItem = $this->getPortfolio();
+        $sliderItem    = $this->getSliders();
 
-        $sliders    = view(env('THEME') . '.slider')->with('sliders',$sliderItem)->render();
-        $this->vars = array_add($this->vars, 'sliders', $sliders);
+        $content       = view(env('THEME') . '.content')->with('content', $portfolioItem)->render();
+        $sliders       = view(env('THEME') . '.slider')->with('sliders',$sliderItem)->render();
+
+        $this->vars    = array_add($this->vars, 'sliders', $sliders);
+        $this->vars    = array_add($this->vars, 'content', $content);
+
 
         return $this->renderOutput();
     }
+
+    protected function getPortfolio()
+    {
+        $portfolio = $this->p_rep->get('*', Config::get('settings.home_port_count') );
+        return $portfolio;
+    }
+
     public function getSliders()
     {
         $sliders = $this->s_rep->get();
