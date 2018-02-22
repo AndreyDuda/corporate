@@ -4,6 +4,8 @@ namespace Corp;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Corp\Article;
+use Corp\Comment;
 
 class User extends Authenticatable
 {
@@ -26,4 +28,14 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function articles()
+    {
+        return $this->hasMany('Article');
+    }
+
+    public function comments()
+    {
+        return $this->belongsTo('Comment');
+    }
 }

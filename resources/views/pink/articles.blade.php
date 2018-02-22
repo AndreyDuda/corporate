@@ -9,7 +9,7 @@
 @endsection
 
 @section( 'bar' )
-    {!! $rightBar !!}
+    {!! $rightBar or ''!!}
 @endsection
 
 @section( 'footer' )
