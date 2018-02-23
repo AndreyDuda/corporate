@@ -3,21 +3,21 @@
 namespace Corp;
 
 use Illuminate\Database\Eloquent\Model;
-use Corp\Article;
-use Corp\User;
+
+
 
 class Comment extends Model
 {
     //
     protected $table = 'comments';
 
-    public function article()
+    public function articles()
     {
-        return $this->belongsTo('Article');
+        return $this->belongsTo('Corp\Article');
     }
 
     public function user()
     {
-        return $this->belongsTo('User');
+        return $this->belongsTo('Corp\User');
     }
 }

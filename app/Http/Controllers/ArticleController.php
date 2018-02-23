@@ -30,7 +30,7 @@ class ArticleController extends SiteController
     {
         $comments              = $this->getComments(config('settings.recent_comments'));
         $portfolios            = $this->getPortfolios(config('settings.recent_portfolios'));
-        $this->contentRightBar = view( env('THEME') . '.articlesBar' )->with(['camments' => $comments, 'portfolios' => $portfolios]);
+        $this->contentRightBar = view( env('THEME') . '.articlesBar' )->with(['comments' => $comments, 'portfolios' => $portfolios]);
         $articles              = $this->getArticles();
         $content               = view(env('THEME') . '.articles_content')->with('articles',$articles)->render();
         $this->vars            = array_add($this->vars, 'content', $content);
