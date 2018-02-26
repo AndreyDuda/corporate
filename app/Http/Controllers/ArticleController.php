@@ -9,6 +9,7 @@ use Corp\Menu;
 use Corp\Repositories\PortfoliosRepository;
 use Config;
 use Corp\Repositories\CommentsRepository;
+use Corp\Category;
 
 class ArticleController extends SiteController
 {
@@ -26,12 +27,12 @@ class ArticleController extends SiteController
 
     }
 
-    public function index()
+    public function index($cat_alias = FALSE)
     {
         $comments              = $this->getComments(config('settings.recent_comments'));
         $portfolios            = $this->getPortfolios(config('settings.recent_portfolios'));
         $this->contentRightBar = view( env('THEME') . '.articlesBar' )->with(['comments' => $comments, 'portfolios' => $portfolios]);
-        $articles              = $this->getArticles();
+        $articles              = $this->getArticles($cat_alias);
         $content               = view(env('THEME') . '.articles_content')->with('articles',$articles)->render();
         $this->vars            = array_add($this->vars, 'content', $content);
 
@@ -40,11 +41,17 @@ class ArticleController extends SiteController
 
     public function getArticles( $alias = FALSE )
     {
-        $articles = $this->a_rep->get( ['title', 'alias', 'created_at', 'img', 'desc', 'user_id',  'category_id'], FALSE, TRUE );
+        $where = FALSE;
+        if($alias){
+            $id = Category::select('id')->where('alias', $alias)->first()->id;
+            $where = ['category_id', $id];
+        }
+
+        $articles = $this->a_rep->get( ['title', 'alias', 'created_at', 'img', 'desc', 'user_id',  'category_id'], FALSE, TRUE, $where );
 
         if($articles){
 
-            //$articles->load( 'user', 'category', 'comments' );
+            $articles->load( 'user', 'category', 'comments' );
         }
 
         return $articles;
