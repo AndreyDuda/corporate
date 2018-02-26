@@ -69,4 +69,17 @@ class ArticleController extends SiteController
         $portfolios = $this->p_rep->get(['title', 'text', 'alias', 'customer', 'img', 'filter_alias'], $take);
         return $portfolios;
     }
+    public function show($alias = FALSE)
+    {
+        $article = $this->a_rep->one($alias, ['comments' => TRUE]);
+        dd($article);
+        $content = view(env('THEME') . '.article_content')->with('article', $article)->render();
+        $this->vars = array_add($this->vars, 'content', $content);
+
+        $comments              = $this->getComments(config('settings.recent_comments'));
+        $portfolios            = $this->getPortfolios(config('settings.recent_portfolios'));
+        $this->contentRightBar = view( env('THEME') . '.articlesBar' )->with(['comments' => $comments, 'portfolios' => $portfolios]);
+
+        return $this->renderOutput();
+    }
 }
