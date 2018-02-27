@@ -2,33 +2,28 @@
 <div id="content-single" class="content group">
     <div class="hentry hentry-post blog-big group ">
         <!-- post featured & title -->
+        @if($article)
         <div class="thumbnail">
             <!-- post title -->
-            <h1 class="post-title"><a href="article.html">This is the title of the first article. Enjoy it.</a></h1>
+            <h1 class="post-title"><a href="#">{{ $article->title }}</a></h1>
             <!-- post featured -->
             <div class="image-wrap">
-                <img src="images/articles/00212-816x282.jpg" alt="00212" title="00212" />
+                <img src="{{ asset(env('THEME')) }}/images/articles/{{ $article->img->max }}" alt="00212" title="00212" />
             </div>
             <p class="date">
-                <span class="month">Sep</span>
-                <span class="day">24</span>
+                <span class="month">{{($article->created_at)? $article->created_at->format('M'):'' }}</span>
+                <span class="day">{{($article->created_at)? $article->created_at->format('d'):'' }}</span>
             </p>
         </div>
         <!-- post meta -->
         <div class="meta group">
-            <p class="author"><span>by <a href="blog-big-image.html" title="Posts by Nicola Mustone" rel="author">Nicola Mustone</a></span></p>
-            <p class="categories"><span>In: <a href="blog-big-image.html" title="View all posts in Design" rel="category tag">Design</a>, <a href="blog-big-image.html" title="View all posts in Happyness" rel="category tag">Happyness</a>, <a href="blog-big-image.html" title="View all posts in WordPress" rel="category tag">WordPress</a></span></p>
-            <p class="comments"><span><a href="#comments" title="Comment on This is the title of the first article. Enjoy it.">2 comments</a></span></p>
+            <p class="author"><span>by <a href="#" title="{{ $article->title }}" rel="author">{{ $article->user->name }}</a></span></p>
+            <p class="categories"><span>In: <a href="{{ route('articlesCat', ['cat_alias' => $article->category->alias] ) }}" title="View all posts in {{ $article->category->title }}" rel="category tag">Design</a>, <a href="blog-big-image.html" title="View all posts in Happyness" rel="category tag">{{ $article->category->title }} </a></span></p>
+            <p class="comments"><span><a href="#comments" title="Comment on This is the title of the first article. Enjoy it.">{{ ( count($article->comments) )? count($article->comments): '0' }} {{ Lang::choice('ru.comments', count($article->comments)) }}</a></span></p>
         </div>
         <!-- post content -->
         <div class="the-content single group">
-            <p>Fusce nec accumsan eros. Aenean ac orci a magna vestibulum posuere quis nec nisi. Maecenas rutrum vehicula condimentum. Donec volutpat nisl ac mauris consectetur gravida.</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel vulputate nibh. Pellentesque habitant <strong>morbi tristique</strong> senectus et netus et malesuada fames ac turpis egestas.</p>
-            <p>In facilisis ornare arcu, sodales facilisis neque blandit ac. Ut blandit ipsum quis arcu adipiscing <strong>sit amet semper</strong> sem feugiat. Nam sed dapibus arcu. Nullam eleifend molestie lectus. Nullam nec risus purus.</p>
-            <p><span id="more-41"></span></p>
-            <p>Fusce rutrum lectus id nibh ullamcorper aliquet. Pellentesque pretium mauris et augue fringilla non bibendum turpis iaculis. Donec sit amet nunc lorem. Sed fringilla vehicula est at pellentesque. Aenean imperdiet elementum arcu id facilisis. Mauris sed leo eros.</p>
-            <p>Duis nulla purus, malesuada in gravida sed, viverra at elit. Praesent nec purus sem, non imperdiet quam. Praesent tincidunt tortor eu libero scelerisque quis consequat justo elementum. Maecenas aliquet facilisis ipsum, commodo eleifend odio ultrices et. Maecenas arcu arcu, luctus a laoreet et, fermentum vel lectus. Cras consectetur ipsum venenatis ligula aliquam hendrerit. Suspendisse rhoncus hendrerit fermentum. Ut eget rhoncus purus.</p>
-            <p>Cras a tellus eu justo lobortis tristique et nec mauris. Etiam tincidunt tellus ut odio elementum adipiscing. Maecenas cursus dolor sit amet leo elementum ut semper velit lobortis. Pellentesque posue</p>
+            <p>{!!  $article->text !!}</p>
             <div class="socials">
                 <h2>love it, share it!</h2>
                 <a href="https://www.facebook.com/sharer.html?u=http%3A%2F%2Fyourinspirationtheme.com%2Fdemo%2Fpinkrio%2F2012%2F09%2F24%2Fthis-is-the-title-of-the-first-article-enjoy-it%2F&amp;t=This+is+the+title+of+the+first+article.+Enjoy+it." class="socials-small facebook-small" title="Facebook">facebook</a>
@@ -41,6 +36,10 @@
         <p class="tags">Tags: <a href="#" rel="tag">book</a>, <a href="#" rel="tag">css</a>, <a href="#" rel="tag">design</a>, <a href="#" rel="tag">inspiration</a></p>
         <div class="clear"></div>
     </div>
+
+
+
+
     <!-- START COMMENTS -->
     <div id="comments">
         <h3 id="comments-title">
@@ -125,3 +124,5 @@
         <!-- #respond -->
     </div>
     <!-- END COMMENTS -->
+    @endif
+</div>
