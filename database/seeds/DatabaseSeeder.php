@@ -110,17 +110,17 @@ class DatabaseSeeder extends Seeder
                 [
                     'title'  => 'Компьютеры',
                     'path'   => 'http://corporate.loc/articles/cat/computers',
-                    'parent' => 3
+                    'parent' => 2
                 ],
                 [
                     'title'  => 'Интересное',
                     'path'   => 'http://corporate.loc/articles/cat/iteresting',
-                    'parent' => 3
+                    'parent' => 2
                 ],
                 [
                     'title'  => 'Советы',
                     'path'   => 'http://corporate.loc/articles/cat/soveti',
-                    'parent' => 3
+                    'parent' => 2
                 ],
                 [
                     'title'  => 'Портфолио',

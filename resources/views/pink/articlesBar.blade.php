@@ -20,7 +20,7 @@
 
 
 
-    @if( !$comments->isEmpty() )
+    @if( !empty($comments) )
         <div class="widget-last widget recent-comments">
             <h3>{{ Lang::get('ru.lates_comments') }}</h3>
             <div class="recent-post recent-comments group">
