@@ -30,7 +30,7 @@
                         <div class="avatar">
                             <img alt="" src="{{ asset(env('THEME')) }}/images/avatar/nicola55.jpeg" class="avatar" />
                         </div>
-                        <span class="author"><strong><a href=#">{{ ($item->user->name)? $item->user->name : $item->name}}</a></strong> in</span>
+                        <span class="author"><strong><a href=#">{{--{{ ($item->user->name)? $item->user->name : $item->name}--}}}</a></strong> in</span>
                         <a class="title" href="#"></a>
                         <p class="comment">
                            {{ $item->text }}<a class="goto" href="#">&#187;</a>

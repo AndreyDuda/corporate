@@ -23,6 +23,7 @@ jQuery(document).ready(function($) {
 							
 							url:$('#commentform').attr('action'),
 							data:data,
+                            headers:{'X-CSRF-TOKEN': $('meta[name="crsrf-token"]').attr('content')},
 							type:'POST',
 							datatype:'JSON',
 							success: function(html) {
