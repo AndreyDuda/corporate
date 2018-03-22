@@ -7,6 +7,7 @@ use Corp\Repositories\PortfoliosRepository;
 use Corp\Repositories\MenusRepository;
 use Corp\Menu;
 use Corp\Filter;
+use Config;
 
 class PortfolioController extends SiteController
 {
@@ -25,15 +26,33 @@ class PortfolioController extends SiteController
     {
         $portfolios = $this->getPortfolios();
 
-        $content = view(env('THEME') . '.portfolios_content')->with('portfolios', $portfolios)->render();
-        $this->vars            = array_add($this->vars, 'content', $content);
+        $content    = view(env('THEME') . '.portfolios_content')->with('portfolios', $portfolios)->render();
+        $this->vars = array_add($this->vars, 'content', $content);
 
         return $this->renderOutput();
     }
 
-    public function getPortfolios()
+    public function show($alias)
     {
-        $portfolios = $this->p_rep->get('*', FALSE, TRUE);
+        $portfolio = $this->p_rep->one($alias);
+
+        $this->title     = $portfolio->title;
+        $this->keywords  = $portfolio->keywords;
+        $this->meta_desc = $portfolio->meta_desc;
+
+        $portfolios = $this->getPortfolios(8, FALSE);
+        $content    = view(env('THEME') . '.portfolio_content')->with(['portfolio' => $portfolio, 'portfolios' => $portfolios])->render();
+        $this->vars = array_add($this->vars, 'content', $content);
+
+
+
+
+        return $this->renderOutput();
+    }
+
+    public function getPortfolios($take = FALSE, $paginate = TRUE)
+    {
+        $portfolios = $this->p_rep->get('*', $take, $paginate);
         if($portfolios){
             $portfolios->load('filter');
         }
