@@ -2,6 +2,9 @@
 
 namespace Corp\Exceptions;
 
+use Corp\Http\Controllers\SiteController;
+use Corp\Menu;
+use Corp\Repositories\MenusRepository;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
@@ -48,6 +51,19 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($this->isHttpException($exception)) {
+            $statusCode = $exception->getStatusCode();
+
+            switch ($statusCode) {
+                case '404' :
+                    $odj = new SiteController(new MenusRepository(new Menu));
+                    $navigation = view(env('THEME') . '.navigation')->with('menu', $odj->getMenu())->render();
+
+                    \Log::alert('Страница не найдена - ' . $request->url());
+                    return response()->view(env('THEME').'.404', ['bar' => 'no', 'title' => 'Страница не найддена', 'navigation' => $navigation]);
+            }
+        }
+
         return parent::render($request, $exception);
     }
 }

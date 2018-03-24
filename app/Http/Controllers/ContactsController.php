@@ -13,16 +13,12 @@ class ContactsController extends SiteController
     {
         parent::__construct( new MenusRepository(new Menu) );
 
-
-
-
         $this->bar      = 'left';
         $this->template = env('THEME') . '.contacts';
 
     }
     public function index(Request $request )
     {
-
         $content = view(env('THEME') . '.contact_content')->render();
         $this->vars            = array_add($this->vars, 'content', $content);
 
