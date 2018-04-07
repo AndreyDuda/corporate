@@ -21,9 +21,7 @@ class AdminController extends Controller
     public function __construct()
     {
         $this->user = Auth::user();
-        if(!$this->user){
-            abort(403);
-        }
+
     }
 
     public function renderOutput()
@@ -48,11 +46,12 @@ class AdminController extends Controller
     {
         return Menu::make('adminMenu', function($menu){
 
-            $menu->add('Статьи', array('route' => 'admin.articles.index'));
-            $menu->add('Портфолио', array('route' => 'admin.articles.index'));
-            $menu->add('Меню', array('route' => 'admin.articles.index'));
-            $menu->add('Пользователи', array('route' => 'admin.articles.index'));
-            $menu->add('Привилегии', array('route' => 'admin.articles.index'));
+            $menu->add('Статьи');
+
+            $menu->add('Портфолио');
+            $menu->add('Меню');
+            $menu->add('Пользователи');
+            $menu->add('Привилегии');
         });
     }
 }

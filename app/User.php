@@ -38,4 +38,14 @@ class User extends Authenticatable
     {
         return $this->belongsTo('Comment');
     }
+
+    public function roles()
+    {
+        return $this->belongsToMany('Corp\Role', 'role_user');
+    }
+
+    public function perms()
+    {
+        return $this->belongsToMany('Corp\Permission', 'permission_role');
+    }
 }

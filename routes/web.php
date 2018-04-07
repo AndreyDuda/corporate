@@ -17,18 +17,17 @@ Route::get('articles/cat/{cat_alias?}', ['uses' => 'ArticleController@index', 'a
 Route::resource('comment', 'CommentController', ['only' => ['store']]);
 Route::match(['get', 'post'], '/contacts', ['uses' => 'ContactsController@index', 'as' => 'contacts']);
 
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
 /*Route::get('login', 'Auth\AuthController@showLoginForm');
 Route::post('login', 'Auth\AuthController@login');
 Route::get('logout', 'Auth\AuthController@logout');*/
 
 Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function(){
     Route::get('/', ['uses' => 'Admin\IndexController@index', 'as' => 'adminIndex']);
-    Route::resource('/articles', 'Admin\ArticlesController');
+    Route::resource('/articles', 'Admin\ArticlesController@index');
 });
-Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
 
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
