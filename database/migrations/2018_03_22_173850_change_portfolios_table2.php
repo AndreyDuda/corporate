@@ -15,8 +15,8 @@ class ChangePortfoliosTable2 extends Migration
     {
         Schema::table('portfolios', function (Blueprint $table) {
             //
-            $table->string('keywords', 255);
-            $table->string('meta_desc', 255);
+            $table->string('keywords', 255)->default(1);
+            $table->string('meta_desc', 255)->default(1);
         });
     }
 

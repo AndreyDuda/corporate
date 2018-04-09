@@ -15,8 +15,8 @@ class ChangeArticleTable2 extends Migration
     {
         Schema::table('articles', function (Blueprint $table) {
             //
-            $table->string('keywords', 255);
-            $table->string('meta_desc', 255);
+            $table->string('keywords', 255)->default(0);
+            $table->string('meta_desc', 255)->default(0);
         });
     }
 
